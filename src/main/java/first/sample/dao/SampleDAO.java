@@ -40,9 +40,19 @@ import first.common.dao.AbstractDAO;
 	public void insertFile(Map<String, Object> map) throws Exception {
 		insert("sample.insertFile", map);
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectFileList(Map<String, Object> map) throws Exception {
 		return (List<Map<String, Object>>)selectList("sample.selectFileList", map);
 	}
+	
+	public void deleteFileList(Map<String, Object> map) throws Exception {
+		update("sample.deleteFileList", map);
+	}
+	
+	public void updateFile(Map<String, Object> map) throws Exception{
+	    update("sample.updateFile", map);
+	}
+
 
 }

@@ -64,12 +64,28 @@ import first.sample.dao.SampleDAO;
 			
 			List<Map<String,Object>> list = sampleDAO.selectFileList(map);
 			resultMap.put("list", list);
+		
 			return resultMap;
 		}
 
 		@Override
-		public void updateBoard(Map<String, Object> map) throws Exception {
-			sampleDAO.updateBoard(map);
+		public void updateBoard(Map<String, Object> map, HttpServletRequest request) throws Exception{
+		    sampleDAO.updateBoard(map);
+		     
+		    
+		    // 해당 부분 왜 썼는지 파악해보자. 에러 발생 하는 이유 찾자.
+		    sampleDAO.deleteFileList(map);
+		    List<Map<String,Object>> list = fileUtils.parseUpdateFileInfo(map, request);
+		    Map<String,Object> tempMap = null;
+		    for(int i=0, size=list.size(); i<size; i++){
+		        tempMap = list.get(i);
+		        if(tempMap.get("IS_NEW").equals("Y")){
+		            sampleDAO.insertFile(tempMap);
+		        }
+		        else{
+		            sampleDAO.updateFile(tempMap);
+		        }
+		    }
 		}
 
 		@Override
